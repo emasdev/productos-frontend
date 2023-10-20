@@ -76,13 +76,19 @@ export function confirmAlert(_url, id, title, message){
   // })
 }
 
+export default function isValidURL(string) {
+  var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  return (res !== null)
+};
+
 export function sendRequest(method, params, url, message){
+
+
   axios({
     method:method,
-    url:url + "/" + params.id,
+    url:url,
   }).then(res => {
     const status = res.status
-    debugger
     if(status == 200){
       showAlert(message,"success")
       window.setTimeout(() => {

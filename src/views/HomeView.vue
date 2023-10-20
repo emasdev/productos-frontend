@@ -1,5 +1,68 @@
 <template>
   <div class="row mt-4">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            Filtrar por nombre
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <form @submit.prevent="">
+              <div class="mb-3">
+                <div class="d-flex justify-content-center">
+                  <div class="form-group">
+                    <input type="email" class="form-control" id="search-nombre" aria-describedby="emailHelp">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+            aria-expanded="false" aria-controls="collapseTwo">
+            Filtrar por sku
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin
+            adds the appropriate classes that we use to style each element. These classes control the overall appearance,
+            as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or
+            overriding our default variables. It's also worth noting that just about any HTML can go within the
+            <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Filtrar por rango
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin
+            adds the appropriate classes that we use to style each element. These classes control the overall appearance,
+            as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or
+            overriding our default variables. It's also worth noting that just about any HTML can go within the
+            <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
     <div class="">
       <div class="table-responsive">
         <table class="table table-hover">
@@ -31,11 +94,11 @@
               </td>
               <td>
                 <div class="d-flex">
-                  <router-link :to="{ path: 'edit/' + producto.id }" class="m-2">
-                    editar
+                  <router-link :to="'editProducto/' + producto.id" class="m-2">
+                    <img height="30" src="https://cdn3.iconfinder.com/data/icons/feather-5/24/edit-512.png">
                   </router-link>
-                  <button @click="() => deleteProduct(producto.id, producto.nombre)" class="m-2">
-                    eliminar
+                  <button @click="() => deleteProduct(producto.id, producto.nombre)" class="m-2 border-0 bg-transparent">
+                    <img height="30" src="https://cdn3.iconfinder.com/data/icons/feather-5/24/trash-2-512.png">
                   </button>
                 </div>
 
@@ -49,15 +112,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
-// export default {
-//   name: 'HomeView',
-//   components: {
-//     HelloWorld
-//   }
-// }
 
 import axios from 'axios';
 import { deleteProduct } from "../functions"
@@ -73,6 +127,14 @@ export default {
     this.getProductos()
   },
   methods: {
+    getProductos() {
+      this.loading = true
+      axios.get("http://127.0.0.1:8000/api/v1/productos").then(
+        res => {
+          this.productos = res.data
+          this.loading = false
+        })
+    },
     getProductos() {
       this.loading = true
       axios.get("http://127.0.0.1:8000/api/v1/productos").then(
